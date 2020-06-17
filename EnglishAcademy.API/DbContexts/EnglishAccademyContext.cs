@@ -18,6 +18,7 @@ namespace EnglishAcademy.API.DbContexts
         {
             modelBuilder.Entity<Teacher>().HasData(new Teacher
             {
+                Id = 1,
                 FirstName = "Juan",
                 LastName = "Perez",
                 DateOfBirth = new DateTime(1995, 7, 23),
@@ -25,6 +26,7 @@ namespace EnglishAcademy.API.DbContexts
 
             modelBuilder.Entity<Student>().HasData(new Student
             {
+                Id = 1,
                 FirstName = "Maria",
                 LastName = "Lorenzo",
                 DateOfBirth = new DateTime(1995, 7, 23),
@@ -32,6 +34,7 @@ namespace EnglishAcademy.API.DbContexts
 
             modelBuilder.Entity<Course>().HasData(new Course
             {
+                Id = 1,
                 Title = "Engish 1",
                 Description = "En este curso el estudiante aprendera a mantener conversaciones sencillas"
             });
