@@ -30,5 +30,9 @@ namespace EnglishAcademy.API.Services
         public bool Save();
 
         public void Dispose();
+        public IEnumerable<Student> GetStudentsByCourseId(int courseId);
+        void UpdateTeacher(Teacher teacher);
+        void UpdateStudent(Student student);
+        void UpdateCourse(Course course);
     }
 }

@@ -37,22 +37,35 @@ namespace EnglishAcademy.API.Controllers
         }
 
         [HttpPost(Name = "CreateCourse")]
-        public ActionResult<Teacher> CreateCourse(Course course)
+        public ActionResult<Course> CreateCourse(Course course)
         {
             if (course == null) return BadRequest();
 
             _englishAccademyRepository.AddCourse(course);
             _englishAccademyRepository.Save();
-
+           
             return CreatedAtRoute("GetCourse",
-                new { authorId = course.Id },
+                new { courseId = course.Id },
                 course);
+        }
+
+        [HttpPut(Name = "UpdateCourse")]
+        public ActionResult UpdateCourse(Course course)
+        {
+            if (_englishAccademyRepository.CourseHasStudents(course.Id))
+                return NotFound();
+
+            _englishAccademyRepository.UpdateCourse(course);
+
+            _englishAccademyRepository.Save();
+
+            return NoContent();
         }
 
         [HttpDelete("{courseId}", Name = "DeleteCourse")]
         public ActionResult DeleteCourse(int courseId)
         {
-            if (!_englishAccademyRepository.CourseHasStudents(courseId))
+            if (_englishAccademyRepository.CourseHasStudents(courseId))
                 return NotFound();
 
             var courseFromRepo = _englishAccademyRepository.GetCurse(courseId);

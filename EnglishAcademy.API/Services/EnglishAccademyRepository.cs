@@ -82,6 +82,11 @@ namespace EnglishAcademy.API.Services
             return _context.Students.ToList();
         }
 
+        public IEnumerable<Student> GetStudentsByCourseId(int courseId)
+        {
+            return _context.Students.Where(x => x.CourseId == courseId).ToList();
+        }
+
         public Student GetStudent(int studentId)
         {
             return _context.Students.FirstOrDefault(a => a.Id == studentId);
@@ -153,5 +158,53 @@ namespace EnglishAcademy.API.Services
                 // dispose resources when needed
             }
         }
+
+        public void UpdateTeacher(Teacher teacher)
+        {
+            if (teacher == null)
+            {
+                throw new ArgumentNullException(nameof(teacher));
+            }
+
+            var teacherToUpdate = GetTeacher(teacher.Id);
+
+            teacherToUpdate.FirstName = teacher.FirstName;
+            teacherToUpdate.LastName = teacher.LastName;
+            teacherToUpdate.DateOfBirth = teacher.DateOfBirth;
+
+            _context.Entry(teacherToUpdate).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        }
+
+        public void UpdateStudent(Student student)
+        {
+            if (student == null)
+            {
+                throw new ArgumentNullException(nameof(student));
+            }
+
+            var studentToBeUpdated = GetStudent(student.Id);
+
+            studentToBeUpdated.FirstName = student.FirstName;
+            studentToBeUpdated.LastName = student.LastName;
+            studentToBeUpdated.DateOfBirth = student.DateOfBirth;
+
+            _context.Entry(studentToBeUpdated).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        }
+
+        public void UpdateCourse(Course course)
+        {
+            if (course == null)
+            {
+                throw new ArgumentNullException(nameof(course));
+            }
+
+            var courseToBEUpdated = GetCurse(course.Id);
+
+            courseToBEUpdated.Title = course.Title;
+            courseToBEUpdated.Description = course.Description;
+
+            _context.Entry(courseToBEUpdated).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        }
+
     }
 }

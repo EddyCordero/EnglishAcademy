@@ -37,7 +37,7 @@ namespace EnglishAcademy.API.Controllers
         }
 
         [HttpPost(Name = "CreateStudent")]
-        public ActionResult<Teacher> CreateAuthor(Student student)
+        public ActionResult<Teacher> CreateStudent(Student student)
         {
             if (student == null) return BadRequest();
 
@@ -45,12 +45,25 @@ namespace EnglishAcademy.API.Controllers
             _englishAccademyRepository.Save();
 
             return CreatedAtRoute("GetStudent",
-                new { authorId = student.Id },
+                new { studentId = student.Id },
                 student);
         }
 
-        [HttpDelete("{teacherId}", Name = "DeleteStudent")]
-        public ActionResult DeteleCourseForAuthor(int studentId)
+        [HttpPut(Name = "UpdateStudent")]
+        public ActionResult UpdateStudent(Student student)
+        {
+            if (!_englishAccademyRepository.StudentExists(student.Id))
+                return NotFound();
+
+            _englishAccademyRepository.UpdateStudent(student);
+
+            _englishAccademyRepository.Save();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{studentId}", Name = "DeleteStudent")]
+        public ActionResult DeleteStudent(int studentId)
         {
             if (!_englishAccademyRepository.StudentExists(studentId))
                 return NotFound();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using EnglishAcademy.API.Entities;
 using EnglishAcademy.API.Services;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnglishAcademy.API.Controllers
@@ -27,7 +28,7 @@ namespace EnglishAcademy.API.Controllers
         }
 
         [HttpGet("{teacherId}", Name = "GetTeacher")]
-        public IActionResult GetAuthor(int teacherId)
+        public IActionResult GetTeacher(int teacherId)
         {
             var teacherFromRepo = _englishAccademyRepository.GetTeacher(teacherId);
 
@@ -49,8 +50,21 @@ namespace EnglishAcademy.API.Controllers
                 teacher);
         }
 
-        [HttpDelete("{teacherId}", Name = "DeleteTeacher")]
-        public ActionResult DeteleCourseForAuthor(int teacherId)
+        [HttpPut(Name = "UpdateTeacher")]
+        public ActionResult UpdateTeacher(Teacher teacher)
+        {
+            if (!_englishAccademyRepository.TeacherExists(teacher.Id))
+                return NotFound();
+
+            _englishAccademyRepository.UpdateTeacher(teacher);
+
+            _englishAccademyRepository.Save();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{teacherId}")]
+        public ActionResult DeleteTeacher(int teacherId)
         {
             if (!_englishAccademyRepository.TeacherExists(teacherId))
                 return NotFound();
